@@ -1,0 +1,64 @@
+body { font-size: 80%; font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif; }
+ul#smtTabs { list-style-type: none; margin: 30px 0 0 0; padding: 0 0 0.3em 0; }
+ul#smtTabs li { display: inline; }
+ul#smtTabs li a { color: #42454a; background-color: #dedbde; border: 1px solid #c9c3ba; border-bottom: none; padding: 0.3em; text-decoration: none; }
+ul#smtTabs li a:hover { background-color: #f1f0ee; }
+ul#smtTabs li a.selected { color: #000; background-color: #f1f0ee; font-weight: bold; padding: 0.7em 0.3em 0.38em 0.3em; }
+div.smtTabCon { border: 1px solid #c9c3ba; padding: 0.5em; background-color: #f1f0ee; }
+div.smtTabCon.hide { display: none; }
+ul#smtGraphTabs { list-style-type: none; margin: 30px 0 0 0; padding: 0 0 0.3em 0; }
+ul#smtGraphTabs li { display: inline; }
+ul#smtGraphTabs li a { color: #42454a; background-color: #dedbde; border: 1px solid #c9c3ba; border-bottom: none; padding: 0.3em; text-decoration: none; }
+ul#smtGraphTabs li a:hover { background-color: #f1f0ee; }
+ul#smtGraphTabs li a.selected { color: #000; background-color: #f1f0ee; font-weight: bold; padding: 0.7em 0.3em 0.38em 0.3em; }
+div#visuallyhidden { 
+  position: absolute; 
+  overflow: hidden; 
+  clip: rect(0 0 0 0); 
+  height: 1px; width: 1px; 
+  margin: -1px; padding: 0; border: 0; 
+}
+#smtStudyOptions{
+	color: white;
+	text-align:center;
+	background-color: black;
+	
+}
+#DefectiveModule{
+	background-color: white;
+	text-align: center;
+	color: black;	
+}
+#GraphType{
+	background-color: white;
+	text-align: center;
+	color: black;
+}
+			
+h1 {
+	color: white;
+	text-align:center;
+	background-color: black;
+}
+			   
+h2{
+	color: black;
+}
+h3{ 
+	color: black; 
+	text-align:	left;
+}
+#Fifty_percent{
+	width:50%;
+	position:relative;
+	min-height:1px;
+	padding-right:15px;
+	padding-left:15px
+}
+#smtParent {display: table;}
+
+#smtChild {
+    display: table-cell;
+    vertical-align: middle;
+		text-align:	left;
+}

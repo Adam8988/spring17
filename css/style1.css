@@ -1,0 +1,41 @@
+body{
+	color: black;
+	background-color: white;
+}
+
+			
+h1 {
+	color: white;
+	text-align:center;
+	background-color: black;
+}
+			   
+h2{
+	color: black;
+}
+
+#head {
+  border-bottom: 3px black solid;
+  	color: white;
+	text-align:center;
+	background-color: black;
+}
+
+#left {
+  float: left;
+  width: 20%;
+}
+
+#right {
+  border: 3px double grey;
+  float: left;
+  width: 75%;
+  height: 100%;
+  margin-left: 1cm;
+}
+
+#footer {
+  border-top: 3px double grey;
+  text-align: center;
+  clear:  both;
+}

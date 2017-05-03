@@ -1,0 +1,198 @@
+body{
+	color: black;
+	background-color: white;
+}
+
+#UniqueModulesList{
+	color: white;
+	text-align:center;
+	background-color: black;
+	
+}
+#UniqueModulesNum{
+	background-color: white;
+	text-align: center;
+	color: black;	
+}
+#TransUnderStudy{
+background-color: white;
+	text-align: center;
+	color: black;	
+}
+#DefectiveModule{
+background-color: white;
+	text-align: center;
+	color: black;	
+}
+#GraphType{
+	background-color: white;
+	text-align: center;
+	color: black;
+}
+			
+h1 {
+	color: white;
+	text-align:center;
+	background-color: black;
+}
+			   
+h2{
+	color: black;
+}
+h1{}
+h2{}
+h3{ 
+	color: black; 
+	text-align:	left;
+}
+#tabprops{
+	text-align:	center;
+}
+#lable{ color: black; }
+#navbuttons{ text-align: center; }
+.codecontainer {
+    width:50%;
+    float:left;
+}
+
+.resultcontainer {
+    width:48%;
+    float:left;
+}
+#column-left{
+	border:2px solid black; 
+	border-radius:10px; 
+	background:black;
+	height:30%; 
+	width:50%; 
+	margin-left:1%; 
+	margin-top:5%;
+	float:left;
+}
+#column-right{
+	border:2px solid black; 
+	border-radius:10px; 
+	background:red;
+	height:90%; 
+	width:48%; 
+	margin-left:1%; 
+	margin-top:5%;
+	float:left;
+}
+#row{
+	border:2px white; 
+	border-radius:10px; 
+	background:black;
+	height:80%; 
+	width:100%; 
+	margin-left:10%; 
+	margin-top:5%;
+}
+
+#head {
+  border-bottom: 3px black solid;
+  	color: white;
+	text-align:center;
+	background-color: black;
+}
+
+#left {
+  float: left;
+  width: 20%;
+}
+
+#right {
+  border: 3px double grey;
+  float: left;
+  width: 75%;
+  height: 100%;
+}
+
+#footer {
+  border-top: 3px double grey;
+  text-align: center;
+  clear:  both;
+}
+
+ul.tabs {
+  border-bottom: 1px solid #DDDDDD;
+  display: block;
+  margin: 0 0 20px;
+  padding: 0;
+}
+ul.tabs li {
+  display: block;
+  float: left;
+  height: 30px;
+  margin-bottom: 0;
+  padding: 0;
+  width: auto;
+}
+ul.tabs li a {
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background: none repeat scroll 0 0 #F5F5F5;
+  border-color: #DDDDDD !important;
+  border-style: solid;
+  border-width: 1px 1px 0 1px;
+  display: block;
+  font-size: 13px;
+  height: 29px;
+  line-height: 30px;
+  margin: 0;
+  padding: 0 20px;
+  text-decoration: none;
+  width: auto;
+  color: #303030;
+  border-bottom:none !important;
+}
+ul.tabs li a.active {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border-left-width: 1px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  color: #111111;
+  height: 30px;
+  margin: 0 0 0 -1px;
+  padding-top: 4px;
+  position: relative;
+  top: -4px;
+}
+ul.tabs li:first-child a.active {
+  margin-left: 0;
+}
+ul.tabs li:first-child a {
+  border-top-left-radius: 2px;
+  border-width: 1px 1px 0;
+}
+ul.tabs li:last-child a {
+  border-top-right-radius: 2px;
+}
+ul.tabs:before, ul.tabs:after {
+  content: " ";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+}
+ul.tabs:after {
+  clear: both;
+}
+$(function () {
+    var pstyle = 'background-color: #F5F6F7; border: 1px solid #dfdfdf; padding: 5px;';
+    $('#layout').w2layout({
+        name: 'layout',
+        panels: [
+            { type: 'top',  size: 50, resizable: true, style: pstyle, content: 'top' },
+            { type: 'left', size: 200, resizable: true, style: pstyle, content: 'left' },
+            { type: 'main', style: pstyle, content: 'main' },
+            { type: 'preview', size: '50%', resizable: true, style: pstyle, content: 'preview' },
+            { type: 'right', size: 200, resizable: true, style: pstyle, content: 'right' },
+            { type: 'bottom', size: 50, resizable: true, style: pstyle, content: 'bottom' }
+        ]
+    });
+});
