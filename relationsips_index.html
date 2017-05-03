@@ -118,10 +118,11 @@
   	<!-- Load style sheet libraries -->
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/style.min.css">
-  
+
 	<link rel="stylesheet" type = "text/css" href="css/w3.css" />
-  	<link rel="stylesheet" type = "text/css" href="css/relationshiptrack_style2.css" />
-	
+  this stylesheet isnt in the code
+  	<!-- <link rel="stylesheet" type = "text/css" href="css/relationshiptrack_style2.css" /> -->
+
 	<!-- Load local javascript libraries -->
 	<script type='text/javascript' src='scripts/jquery-3.2.1.js'></script>
 	<script type='text/javascript' src='scripts/smtLayout.js'></script>
@@ -130,13 +131,13 @@
 	<script type='text/javascript' src='scripts/smtGraphing.js'></script>
 </head>
 <body>
-  
+
 <header class="o-header">
   <nav class="o-header-nav">
   </nav>
   <div class="o-container">
 <!--     <h1 class="o-header__title">RelationshipTracker</h1>  -->
-     <h1>RelationshipTracker</h1> 
+     <h1>RelationshipTracker</h1>
   </div>
 </header>
 
@@ -166,8 +167,8 @@
         <div class="c-tab is-active">
           <div class="c-tab__content">
             <h2>RelationshipTracker Overview </h2>
-			<h3>A Relationship Visualization Program</h3> 
-			<p>RelationshipTracker is a relationship visualization tool that can be used to highlight social relationships. 
+			<h3>A Relationship Visualization Program</h3>
+			<p>RelationshipTracker is a relationship visualization tool that can be used to highlight social relationships.
 			</p>
           </div>
         </div>
@@ -202,8 +203,8 @@
 		</div><!-- class="row" -->
 		<div class="row">
 		<div class="col-md-12"><br>
-		<form 
-			id="formDefineRelations"  
+		<form
+			id="formDefineRelations"
 			onsubmit="smtAnalyzeRelationships(this); return false">
 		<table>
 		<tr>
@@ -214,20 +215,20 @@
 			<td>Select File to Upload:
 			</td>
 			<td>
-				<input type="file" id="fileInput" size="70" 
+				<input type="file" id="fileInput" size="70"
 				style="font-family:Courier,monospace; font-weight:bold"></input>
 			</td>
 		</tr>
 		<tr class="navbuttons">
 			<td colspan=2>
-				<button type=submit>Continue</button>				
+				<button type=submit>Continue</button>
 				<a href="index.html"><input type="button" value="Return"></a>
 				<input type="reset">
 			</td>
 		</tr>
 		</table>
 		</form>
-		
+
 		</div><!-- END COL-MD-12 -->
 		</div><!-- END ROW -->
 	</div>
@@ -237,8 +238,8 @@
           <div class="c-tab__content"><!-- START STUDY OPTIONS Content -->
 			<h2>Bad Apple Study Options</h2>
       <div>
-	  	<form 
-			id="formStudyOptions"  
+	  	<form
+			id="formStudyOptions"
 			onsubmit="smtConductStudy(this); return false">
 		<table    >
 		<tr>
@@ -260,7 +261,7 @@
 		<tr>
 			<td class="smtLabel">Graph Type</td>
 			<td>
-			    
+
         <div class="radio"><input autocomplete="off" type="radio" name="radio_position" onclick="click_position(this)" id="value_1" value="graphFocusGroup"><label for="value_1">Relationship Focus Group Relationships
 </label></div>
         <div class="radio"><input autocomplete="off" type="radio" name="radio_position" onclick="click_position(this)" id="value_2" value="graphDefMod"><label for="value_2">Bad Apple Relationships</label></div>
@@ -332,12 +333,12 @@
 					</td>
 				</tr>
 			</table>
-		
+
 				</div><!-- END div id="FocusGroup" -->
 
 				<div id="BadApple" class="w3-container graph" style="display:none">
 		<h2>Bad Apple</h2>
-		<p>.......</p> 
+		<p>.......</p>
 				</div><!-- END div id="BadApple" -->
 
 				<div id="Full" class="w3-container graph" style="display:none">
