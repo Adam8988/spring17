@@ -1,0 +1,168 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="my-icons.html">
+<link rel="import" href="rt-define.html">
+<link rel="import" href="rt-graphs.html">
+<link rel="import" href="rt-options.html">
+<link rel="import" href="rt-overview.html">
+<link rel="import" href="my-view404.html">
+
+<dom-module id="relationship-tracker-app">
+  <template>
+    <style>
+      :host {
+        --app-primary-color: #2da798;
+        --app-secondary-color: black;
+
+        display: block;
+      }
+
+      app-header {
+        color: #fff;
+        background-color: var(--app-primary-color);
+      }
+      app-header paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+
+      .drawer-list {
+        margin: 0 20px;
+      }
+
+      .drawer-list a {
+        display: block;
+        padding: 0 16px;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+        line-height: 40px;
+      }
+
+      .drawer-list a.iron-selected {
+        color: black;
+        font-weight: bold;
+      }
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+    <app-drawer-layout fullbleed>
+      <!-- Drawer content -->
+
+
+      <!-- Main content -->
+      <app-header-layout has-scrolling-region>
+
+        <app-header condenses reveals effects="waterfall">
+          <app-toolbar>
+            <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
+            <div main-title>Relationship Tracker</div>
+          </app-toolbar>
+        </app-header>
+        <paper-tabs id='tabs' selected='{{page}}' attr-for-selected='name'>
+          <paper-tab name='rt-overview'>Overview</paper-tab>
+          <paper-tab name='rt-define'>Define Relationships</paper-tab>
+          <paper-tab name='rt-options'>Select Study Options</paper-tab>
+          <paper-tab name='rt-graphs'>View Graphs</paper-tab>
+        </paper-tabs>
+        <iron-pages
+            id='pages'
+            selected="[[page]]"
+            attr-for-selected="name"
+            fallback-selection="rt-view404"
+            role="main">
+          <rt-overview name="rt-overview"></rt-overview>
+          <rt-define id='define' name="rt-define" results='{{definition}}'></rt-define>
+          <rt-options id='options' name="rt-options" inputs='[[intoOptions]]' results='{{options}}'></rt-options>
+          <rt-graphs id='graphs' name="rt-graphs" inputs='[[intoGraphs]]' page='[[page]]'></rt-graphs>
+          <my-view404 name="view404"></my-view404>
+        </iron-pages>
+        <span>
+          <paper-button on-click='_back'>back</paper-button>
+          <paper-button>reset</paper-button>
+          <paper-button on-click='_processPage'>Continue</paper-button>
+        </span>
+      </app-header-layout>
+    </app-drawer-layout>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'relationship-tracker-app',
+
+      properties: {
+        page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged',
+        },
+        definition: {notify: true},
+        intoOptions: {notify: true},
+        options: {notify: true},
+        intoGraphs: {notify: true}
+      },
+
+      observers: [
+        '_routePageChanged(routeData.page)',
+      ],
+
+      _routePageChanged: function(page) {
+        this.page = page || 'rt-define';
+      },
+
+      _pageChanged: function(page) {
+        // Load page import on demand. Show 404 page if fails
+        // var resolvedPageUrl = this.resolveUrl(page + '.html');
+        // this.importHref(resolvedPageUrl, null, this._showPage404, true);
+      },
+
+      _showPage404: function() {
+        this.page = 'rt-view404';
+      },
+      _back: function(e){
+        if(this.page != 'rt-overview'){
+          this.$.tabs.selectPrevious();
+        }
+      },
+      _processPage: function(e){
+        if(this.$.tabs.selected != 'rt-graphs'){
+          this.$.tabs.selectNext();
+          console.log('the updated page is ',this.page)
+          if(this.page == 'rt-options'){
+            this.intoOptions = this.definition
+          }
+          if(this.page == 'rt-graphs'){
+            this.intoGraphs = this.options;
+          }
+        }
+      }
+
+    });
+  </script>
+</dom-module>

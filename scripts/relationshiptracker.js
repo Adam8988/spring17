@@ -5,7 +5,7 @@
 */
 var tabLinks = new Array();
 var contentDivs = new Array();
-	
+
 // START SMT TAB Initialization
 // Credits: http://www.elated.com/articles/javascript-tabs/
  function init() {
@@ -85,7 +85,7 @@ function getFirstChildWithTagName( element, tagName ) {
 
 // START OF getHash
 /*
-The getHash() helper function returns the portion of a URL after any hash symbol. 
+The getHash() helper function returns the portion of a URL after any hash symbol.
 Used by init() and showTab() to extract the content div ID referenced in a tab link.
 */
 function getHash( url ) {
@@ -96,13 +96,13 @@ function getHash( url ) {
 /////////// END OF Layout Functions
 
 
-/* 
+/*
 // ###################################################################
 // Input Processing Functions
 // ###################################################################
 */
 // Build a unique array using a "hash map" to check if an item is repeated
-// credit goes to  Chunlong http://jszen.com 
+// credit goes to  Chunlong http://jszen.com
 Array.prototype.unique = function(){
 		var n = {},arrayR=[];
 		for(var i = 0; i < this.length; i++){
@@ -122,16 +122,16 @@ function smtProcessTransactions(strSubmitted){
     }
 //	UniqueFriendsNum
 
-	
+
 	arrRelationships = strSubmitted.toString().split(/[;\n]/);
 	console.log('The original string is: "' + strSubmitted + '"');
 	console.log('The separator is: "' + patternTransSep + '"');
-	console.log('The array arrRelationships[] has ' 
-				+ arrRelationships.length 
-				+ ' elements: ' 
+	console.log('The array arrRelationships[] has '
+				+ arrRelationships.length
+				+ ' elements: '
 				+ arrRelationships.join(' / ')
 				);
-		
+
 	return true;
 // TODO
 }
@@ -150,21 +150,21 @@ function smtAnalyzeRelationships(smtForm) {
 		}
 
 	var txtFromFile;
-	
+
 		try{
 			txtFromFile =smtForm.elements["fileInput"].innerText;
 		}catch(err){
 			console.log('txtFromFile ERROR: "' + err + '"');
 			txtFromFile = "";
 		}
-	
+
 	var arrayFriends = [];
 	var arrayUniqFriends = [];
 	var strUniqFriends;
 	var DisplayArea=document.getElementById("paper");
-	//var countUniqFriends=document.getElementById("UniqueFriendsNum");
-	//var listUniqFriends=document.getElementById("UniqueFriendsList");
-	
+	var countUniqFriends=document.getElementById("UniqueFriendsNum");
+	var listUniqFriends=document.getElementById("UniqueFriendsList");
+
 	//The input field was empty, try the file upload
 	if ((txtFromInput === undefined)||(txtFromInput === "")) {
         txtToProcess = txtFromFile;
@@ -175,15 +175,15 @@ function smtAnalyzeRelationships(smtForm) {
 	if ((txtToProcess === undefined)||(txtToProcess === "")) {
 		txtToProcess = "empty set";
 	}
-	
+
 	//alert(typeof txtToProcess.toString());
 	arrayFriends = txtToProcess.toString().split(/[ ;\n]/);
 	arrayFriends.replace(/\*\*/g, "");
 	console.log('The original string is: "' + txtToProcess + '"');
 	console.log('The separator is: "' + patternSpace + '"');
-	console.log('The array has ' 
-				+ arrayFriends.length 
-				+ ' elements: ' 
+	console.log('The array has '
+				+ arrayFriends.length
+				+ ' elements: '
 				+ arrayFriends.join(' / ')
 				);
 	//We need at least 1 relationship
@@ -201,9 +201,9 @@ function smtAnalyzeRelationships(smtForm) {
 		document.getElementById("UniqueFriendsList").innerHTML=strUniqFriends;
 		// debug Print the Unique Friends to the right place
 
-		DisplayArea.innerHTML = "<ul>" + 
+		DisplayArea.innerHTML = "<ul>" +
 								"<li><b># Unique Friends:</b> " + arrayFriends.length + "</li>" +
-								"<li><b>List of Unique Friends</b><br>" + strUniqFriends + 
+								"<li><b>List of Unique Friends</b><br>" + strUniqFriends +
 								"</li>" +
 								"</ul>";
 		// TODO
@@ -212,14 +212,14 @@ function smtAnalyzeRelationships(smtForm) {
 		} else {
 			return false;
 		}
-		
-		
+
+
 
 	} else {
 		txtOutput="<b>Input contained no valid relationships</b>";
 		document.getElementById("paper").innerHTML = txtOutput;
 		return false;
-		
+
 	}
 }
 
@@ -228,7 +228,7 @@ function studyDefects(form){
 			return false;
 }
 /* ###################################################################
-// Actual Graphing Functions that Call Raphael functions    
+// Actual Graphing Functions that Call Raphael functions
 // ###################################################################
 */
 // $('#smtMakeGraph').click(function(){ smtOpenGraph(); return false; });
@@ -248,7 +248,7 @@ function smtOpenGraph(evt, smtGraphType) {
   document.getElementById(smtGraphType).style.display = "block";
   evt.currentTarget.firstElementChild.className += " w3-border-red";
 }
-// END smtOpenGraph	
+// END smtOpenGraph
 
 redraw = function() {
 	layouter.layout();
@@ -268,7 +268,7 @@ function smtMakeGraph(tabDestination){
     /* layout the graph using the Spring layout implementation */
     var layouter = new Graph.Layout.Spring(smtGraph);
 	layouter.layout();
-    
+
 	/* draw the graph using the RaphaelJS draw implementation */
 	var renderer = new Graph.Renderer.Raphael('canvas', smtGraph, 400, 400);
 	renderer.draw();

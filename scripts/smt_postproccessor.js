@@ -1,6 +1,7 @@
 window.onload = function() {
 		var fileInput = document.getElementById('fileInput');
 		var fileContentArea = document.getElementById('canvas');
+		var fileDisplayArea = document.getElementById('fileDisplayArea');
 
 		fileInput.addEventListener('change', function(e) {
 			var smtFileObject = fileInput.files[0];
@@ -10,20 +11,23 @@ window.onload = function() {
 				var reader = new FileReader();
 
 				reader.onload = function(e) {
+					console.log('loaded file results: ', reader.result);
 					fileContentArea.innerText = reader.result;
-					// only have this next line for debug. 
+					$('#txtModRelationships').value = reader.result;
+
+					// only have this next line for debug.
 					// REMOVE in actual production code
 					fileDisplayArea.innerText = reader.result;
 				}
 
-				reader.readAsText(smtFileObject);	
+				reader.readAsText(smtFileObject);
 			} else {
 				fileDisplayArea.innerText = "File not supported!";
 			}
 		});
 }
 
-/*
+
 $(function () {
 		$('#tabs').w2tabs({
 			name: 'tabs',
@@ -41,7 +45,7 @@ $(function () {
 		});
 	});
 $(document).ready(function() {
-    
+
     $('.tabs li a').click(function(event){
         event.preventDefault();
         $('.tabs li a').removeClass('active');
@@ -49,6 +53,5 @@ $(document).ready(function() {
         $('.tab-content').hide();
         $($(this).attr('href')).show();
     });
-    
+
 });
-*/
