@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>RelationshipTracker</title>
+  <meta name="description" content="A Relationship visualization tool">
+
+
+		<style>
+			body {
+				font-family: helvetica;
+				font-size: 14px;
+			}
+			.w3-container .graph {
+        width: 300px;
+        height: 300px;
+        display: block;
+			}
+
+			h1 {
+				opacity: 0.5;
+				font-size: 1em;
+			}
+      .tab{
+        /*height: 88px;*/
+        font-size: 2em;
+        margin: 20px 20px;
+        padding: 15px 15px
+      }
+      .tab.active{
+        background: lightgrey;
+      }
+      #define,#overview,#options,#graphs{
+        padding: 36px 36px;
+        display: block;
+        margin: 36px 36px;
+        overflow-y: scroll;
+        padding-bottom: 96px;
+      }
+      #define.active,#overview.active,#options.active,#graphs.active{
+      }
+      #toolbar{
+        /*position: fixed;
+        left: 32px;
+        bottom: 32px;*/
+      }
+      #cy{
+        width: 100%;
+        height: 450px;
+        border-style:dashed;
+
+      }
+      .label-value{
+        margin:0 auto;
+        text-align: center;
+      }
+      .label-container > span{
+        margin-bottom: 8px;
+      }
+      @media print{
+        #header-toolbar,h1{
+          display: none;
+        }
+      }
+		</style>
+
+
+  	<!-- Load style sheet libraries -->
+  <link rel="stylesheet" href="css/semantic.min.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="scripts/cytoscape.min.js"></script>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/semantic.min.js"></script>
+  <!-- <script src="scripts/tabs.js"></script> -->
+  <script src="scripts/app.js"></script>
+
+</head>
+  <body class='layout vertical center'>
+    <!-- title -->
+    <h1>Relationship Tracker</h1>
+    <!-- tabs -->
+    <div id='header-toolbar' class='layout horizontal center tabs'>
+      <span id='overview_tab' class='tab'>Overview</span>
+      <span id='define_tab' class='tab'>Define Relationships</span>
+      <span id='options_tab' class='tab'>Select Study Options</span>
+      <span id='graphs_tab' class='tab'>View Graphs</span>
+    </div>
+    <!-- views -->
+    <!-- OVERVIEW PAGE -->
+    <div id='overview' class='layout vertical self-stretch view flex ui raised segment'>
+      <h2>Overview</h2>
+      <h3>A Relationship Visualization Program</h3>
+      <span>RelationshipTracker is a relationship visualization tool that can be used to highlight social relationships.</span>
+    </div>
+    <!-- DEFINITION PAGE -->
+    <div id='define' class='layout vertical  self-stretch view flex center  ui raised segment active'>
+      <h2>Relationship Definition</h2>
+      <div class='layout horizontal'>
+        <div class='layout vertical'>
+          <h3>Getting Started</h3>
+          <span>
+            1. Enter the relationships, or
+          </span>
+          <span>
+            2. Upload a file containing relationships
+          </span>
+        </div>
+        <div class='layout vertical'>
+          <h3>Input Formatting Requirements</h3>
+          <span>
+            1. Sets of related friends must be seperated by a single space
+            eg:friend1 friend2
+          </span>
+          <span>
+            2. Separate each set of relationships by semicolons " ; "
+            eg:mom dad son;friendHU friendTSU friendUCLA
+          </span>
+          <span>
+            3. Terminate relationship input by double asterisk characters "**"
+            eg:mod1 mod2;mod3 mod4**
+          </span>
+        </div>
+      </div>
+      <form id='defineForm' class="ui form">
+        <div class="field">
+          <label>Relationship Text Input</label>
+          <input type="text" name="relationship-text" placeholder="paste relationship file here">
+        </div>
+        <div class="field">
+          <label>Relationship File Upload</label>
+          <input type="file" name="relationship-file" >
+        </div>
+      </form>
+    </div>
+    <!-- OPTIONS PAGE -->
+    <div id='options' class='layout vertical  self-stretch view flex ui raised segment'>
+      <h2>Study Options</h2>
+      <div class='layout vertical label-container'>
+        <span class='layout horizontal center'>
+          <label class='ui label big flex-4'>Number of Unique Nodes</label>
+          <span  class='flex-8 numNodes label-value'>nil</span>
+        </span>
+        <span class='layout horizontal center'>
+          <label class='ui label big flex-4'>List of Unique Nodes</label>
+          <span class='flex-8 nodeList label-value'>nil</span>
+        </span>
+      </div>
+      <form id='optionsForm' class="ui form">
+        <div class="field">
+          <label>Relationship Focus Group</label>
+          <input type="text" name="relationship-focus-group" placeholder="paste relationship focus group here. eg. a,b,c">
+        </div>
+        <div class="field">
+          <label>Target Node</label>
+          <input type="text" name="target-node" placeholder="paste target node selection here. eg. a">
+        </div>
+        <div class="inline fields checkbox-fields">
+          <label for="graph-type">Select the graph view you want:</label>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="graph-type-full" tabindex="0" class="hidden">
+              <label name="graph-type-full">Full</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="graph-type-relationship" tabindex="1" class="hidden">
+              <label name="graph-type-relationship">Relationship Group</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="graph-type-target" tabindex="2" class="hidden">
+              <label name="graph-type-target">Target Node</label>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- GRAPHS -->
+    <div id='graphs' class='layout vertical  self-stretch view flex ui raised segment'>
+      <h2 class='layout horizontal center'>Graphs
+      </h2>
+      <div class='layout vertical label-container'>
+        <span class='layout horizontal center'>
+          <label class='ui label big flex-4'>Number of Unique Nodes</label>
+          <span  class='flex-8 label-value numNodes'>nil</span>
+        </span>
+        <span class='layout horizontal center'>
+          <label class='ui label big flex-4'>List of Unique Nodes</label>
+          <span class='nodeList flex-8 label-value'>nil</span>
+        </span>
+        <span class='layout horizontal center'>
+          <label class='ui label big flex-4'>Relationship Focus Group</label>
+          <span class='focusGroup flex-8 label-value'>nil</span>
+        </span>
+        <span class='layout horizontal center'>
+          <label class='ui label big flex-4'>Target Node</label>
+          <span class='targetNode flex-8 label-value'>nil</span>
+        </span>
+        <span class='layout horizontal center'>
+          <label class='ui label big flex-4'>Graph Type</label>
+          <span class='graphType flex-8 label-value'>nil</span>
+        </span>
+      </div>
+      <div class='layout horizontal center top ui attached buttons'>
+        <button class='ui huge button graph-button'>Full</button>
+        <button class='ui huge button graph-button'>Relationship</button>
+        <button class='ui huge button graph-button'>Target</button>
+      </div>
+      <div id='cy' class='ui attached raised'>
+
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div id='toolbar' class='layout horizontal center bottom ui attached buttons'>
+      <button class='ui huge button'>Return</button>
+      <button class='ui huge button'>Reset</button>
+      <button class='ui huge button'>Continue</button>
+      <button class='ui huge button'>Print</button>
+    </div>
+
+  </body>
+</html>
