@@ -108,6 +108,10 @@ $(document).ready(function(){
     }
     if(selectedGraph == 'relationship'){
       console.log('relationship')
+      if(app.targetNode != ""){
+        var targetNode = app.cy.elements('#'+app.targetNode);
+        targetNode.addClass('target');
+      }
       app.focusGroup.split(',').forEach(function(id){
         app.cy.elements('#'+id).addClass('focus');
       },this);
@@ -208,7 +212,9 @@ function createGraphs(){
       'color': '#B3767E',
       'target-arrow-color': '#B3767E',
       'source-arrow-color': '#B3767E',
-      'opacity': 1
+      'opacity': 1,
+      'font-weight': 'bold',
+      'font-size': (Math.floor(app.numNodes/2)+1)+'em'
     })
     .selector('node.focus')
     .css({
