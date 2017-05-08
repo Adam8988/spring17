@@ -72,6 +72,10 @@ $(document).ready(function(){
     if(selectedGraph == 'full'){
       console.log('full')
       //remove css from all nodes and edges
+      if(app.targetNode != ""){
+        var targetNode = app.cy.elements('#'+app.targetNode);
+        targetNode.addClass('target');
+      }
     }
     if(selectedGraph == 'target'){
       console.log('target')
@@ -94,6 +98,7 @@ $(document).ready(function(){
         }
       },this);
     }
+    app.cy.fit();
   })
 
 }); //end $.ready
@@ -155,7 +160,9 @@ function createGraphs(){
       'background-color': 'black',
       'width': 'mapData(baz, 0, 10, 10, 40)',
       'height': 'mapData(baz, 0, 10, 10, 40)',
-      'content': 'data(id)'
+      'content': 'data(id)',
+      'color':'black',
+      'font-size': Math.floor(app.numNodes/2)+'em'
     })
     .selector('edge')
     .css({
@@ -217,21 +224,34 @@ function createGraphs(){
       'opacity': 0.25,
       'text-opacity': 0
     }),
+    // layout: {
+    //   name: 'cose',
+    //   idealEdgeLength: 100,
+    //   nodeOverlap: 20,
+    //   boundingBox: {
+    //     x1: 0, y1: 0, x2: 560, y2: 376, w: 560, h: 376
+    //   }
+    // },
     layout: {
       name: 'circle',
       padding: 10,
+      spacingFactor: 2,
       avoidOverlap: true,
       fit: true,
       radius:app.numNodes * 20,
       avoidOverlapPadding: 10,
       boundingBox: {
-        x1: 0, y1: 0, x2: 560, y2: 376, w: 560, h: 376
+        x1: 0, y1: 0, x2: 600, y2: 440, w: 600, h:440
       }
     },
     directed: true,
     styleEnabled: true
   });
   $("#graphs button[name='"+app.graphData.graphType+"']").click();
+  setTimeout(function(){
+    app.cy.fit();
+  }.bind(this),1000);
+  app.zoomLevel = app.cy.zoom();
 }
 
 function processDefinition(){
@@ -246,9 +266,10 @@ function processDefinition(){
   // console.log('relationships: ',relationships.replace(/\r/g, "").replace(/\n/g, ""))
   // //sanitized and structure relationship string for edge and node parsing
   str.replace(/\r/g, "").replace(/\n/g, "").split(';').forEach(function(el){
-    var sanitized = el.split(' ').filter(function(el){
+    var sanitized = el.trim().split(' ').filter(function(el){
       return el != '' && nodeList.indexOf(el) == -1;
     },this);
+    console.log(sanitized)
     var structured = {
       data:{
         id: sanitized[0]+sanitized[1],
@@ -256,6 +277,7 @@ function processDefinition(){
         target: sanitized[1]
       }
     };
+    console.log(structured)
     nodes = nodes.concat(sanitized);
     edges= edges.concat(structured);
   },this);
@@ -269,21 +291,24 @@ function processDefinition(){
   app.nodes =  nodeList.map(function(el){
     return {data:{id:el}};
   },this);
-
-  edges = str.toString().split(';').map(function(el){
-    console.log(el)
-    var sanitized = el.replace(';','').replace('\r','').split(' ');
-    var structured = {
-      data:{
-        id: sanitized[0]+sanitized[1],
-        source: sanitized[0],
-        target: sanitized[1]
-      }
-    };
-    return structured;
-  },this).filter(function(edge){
-    return edge.data.id != 'undefined';
+  edges = edges.filter(function(edge){
+    return edge.data.id != 'undefined' && (edge.data.source) &&(edge.data.target);
   });
+  console.log(edges)
+  // edges = str.toString().split(';').map(function(el){
+  //   console.log(el)
+  //   var sanitized = el.replace(';','').replace('\r','').split(' ');
+  //   var structured = {
+  //     data:{
+  //       id: sanitized[0]+sanitized[1],
+  //       source: sanitized[0],
+  //       target: sanitized[1]
+  //     }
+  //   };
+  //   return structured;
+  // },this).filter(function(edge){
+  //   return edge.data.id != 'undefined';
+  // });
   app.edges = edges;
   console.log('app data:',app)
   app.numNodes = app.nodeList.length;

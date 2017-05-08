@@ -47,7 +47,9 @@
       }
       #cy{
         width: 100%;
+        max-width: 600px;
         height: 450px;
+        margin: auto;
         border-style:dashed;
 
       }
@@ -70,6 +72,8 @@
   <link rel="stylesheet" href="css/semantic.min.css">
   <link rel="stylesheet" href="css/app.css">
   <script src="scripts/cytoscape.min.js"></script>
+  <script src="https://cdn.rawgit.com/cpettitt/dagre/v0.7.4/dist/dagre.min.js"></script>
+		<script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.5.0/cytoscape-dagre.js"></script>
   <script src="scripts/jquery.min.js"></script>
   <script src="scripts/semantic.min.js"></script>
   <!-- <script src="scripts/tabs.js"></script> -->
@@ -179,7 +183,7 @@
       </form>
     </div>
     <!-- GRAPHS -->
-    <div id='graphs' class='layout vertical  self-stretch view flex ui raised segment'>
+    <div id='graphs' class='layout vertical  self-stretch view flex ui raised segment center'>
       <h2 class='layout horizontal center'>Graphs
       </h2>
       <div class='layout vertical label-container'>
@@ -205,11 +209,11 @@
         </span>
       </div>
       <div class='layout horizontal center top ui attached buttons'>
-        <button class='ui huge button graph-button'>Full</button>
-        <button class='ui huge button graph-button'>Relationship</button>
-        <button class='ui huge button graph-button'>Target</button>
+        <button class='ui huge button graph-button full' name='full'>Full</button>
+        <button class='ui huge button graph-button relationship' name='relationship'>Relationship</button>
+        <button class='ui huge button graph-button target' name='target'>Target</button>
       </div>
-      <div id='cy' class='ui attached raised'>
+      <div id='cy' class='ui attached raised center'>
 
       </div>
     </div>
