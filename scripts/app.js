@@ -18,6 +18,7 @@ $(document).ready(function(){
     $('#'+app.selectedTab).fadeIn();
   });
   $('#toolbar button').click(function(e){
+    console.log($(e.target).text())
     if($(e.target).text() == 'Reset'){
       window.location.reload();
       return false;
@@ -28,22 +29,41 @@ $(document).ready(function(){
     }
 
     if(app.selectedTab == 'overview'){
-      $(e.target).text() == 'Return' ? {} : $('#define_tab').click();
+      if($(e.target).text() == 'Return'){
+
+      }else {
+        $('#define_tab').click();
+
+      }
       return false;
     }
     if(app.selectedTab == 'define'){
-      ($(e.target).text() == 'Return') ? $('#overview_tab').click() : processDefinition(), $('#options_tab').click();
+      if(($(e.target).text() == 'Return') ){
+        $('#overview_tab').click() 
+      }else {
+        processDefinition();
+        $('#options_tab').click();
+      }
       return false;
     }
     if(app.selectedTab == 'options'){
-      ($(e.target).text() == 'Return') ? $('#define_tab').click() : processOptions(),$('#graphs_tab').click();
+      if(($(e.target).text() == 'Return') ){
+        $('#define_tab').click();
+      }else {
+        processOptions();
+        $('#graphs_tab').click();
+      }
       return false;
     }
     if(app.selectedTab == 'graphs'){
-      ($(e.target).text() == 'Return') ? $('#options_tab').click() : {};
+      if(($(e.target).text() == 'Return') ){
+        $('#options_tab').click();
+      }else {
+
+      }
       return false;
     }
-  })
+  }.bind(this))
   //filereader
   $("input[name='relationship-file']").change(function(e){
     app.reader = new FileReader();
