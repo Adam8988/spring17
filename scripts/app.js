@@ -39,7 +39,7 @@ $(document).ready(function(){
     }
     if(app.selectedTab == 'define'){
       if(($(e.target).text() == 'Return') ){
-        $('#overview_tab').click() 
+        $('#overview_tab').click()
       }else {
         processDefinition();
         $('#options_tab').click();
@@ -126,10 +126,9 @@ $(document).ready(function(){
 function processOptions(){
   // console.log($('#options input:checked').prop('name'))
   app.graphType = $('#options input:checked').prop('name').split('-')[2];
-  app.focusGroup = $("#options input[name='relationship-focus-group']").val();
   app.graphData = {};
-  app.focusGroup = $("#options input[name='relationship-focus-group']").val();
-  app.targetNode = $("#options input[name='target-node']").val();
+  app.focusGroup = $("#options input[name='relationship-focus-group']").val().toLowerCase();
+  app.targetNode = $("#options input[name='target-node']").val().toLowerCase();
   if(app.targetNode != ""){
     app.graphData.targetNode = [{data:{id:app.targetNode}}];
     app.graphData.targetEdges = [];
@@ -146,7 +145,7 @@ function processOptions(){
 
   //insert data into next segment
   $('#graphs span.numNodes').text(app.numNodes)
-  $('#graphs span.nodeList').text(app.nodeList)
+  $('#graphs span.nodeList').text(app.nodeList.toString().replace(/,/g,',  '))
   $('#graphs span.focusGroup').text(app.focusGroup)
   $('#graphs span.targetNode').text(app.targetNode)
   $('#graphs span.graphType').text(app.graphType)
@@ -276,7 +275,7 @@ function createGraphs(){
 
 function processDefinition(){
   var str = app.textFromFile ? app.textFromFile : $("#define input[name='relationship-text']").val();
-  str = str.replace(/\r/g, "").replace(/\n/g, "");
+  str = str.replace(/\r/g, "").replace(/\n/g, "").toLowerCase();
   console.log(str.replace(/\r/g, "").replace(/\n/g, ""))
   var nodes = [];
   var edges = [];
@@ -334,5 +333,5 @@ function processDefinition(){
   app.numNodes = app.nodeList.length;
   //insert data into next segment
   $('#options span.numNodes').text(app.numNodes);
-  $('#options span.nodeList').text(app.nodeList.toString());
+  $('#options span.nodeList').text(app.nodeList.toString().replace(/,/g,',  '));
 }
