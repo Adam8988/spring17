@@ -18,6 +18,7 @@ $(document).ready(function(){
     $('#'+app.selectedTab).fadeIn();
   });
   $('#toolbar button').click(function(e){
+    console.log($(e.target).text())
     if($(e.target).text() == 'Reset'){
       window.location.reload();
       return false;
@@ -28,22 +29,41 @@ $(document).ready(function(){
     }
 
     if(app.selectedTab == 'overview'){
-      $(e.target).text() == 'Return' ? {} : $('#define_tab').click();
+      if($(e.target).text() == 'Return'){
+
+      }else {
+        $('#define_tab').click();
+
+      }
       return false;
     }
     if(app.selectedTab == 'define'){
-      ($(e.target).text() == 'Return') ? $('#overview_tab').click() : processDefinition(), $('#options_tab').click();
+      if(($(e.target).text() == 'Return') ){
+        $('#overview_tab').click()
+      }else {
+        processDefinition();
+        $('#options_tab').click();
+      }
       return false;
     }
     if(app.selectedTab == 'options'){
-      ($(e.target).text() == 'Return') ? $('#define_tab').click() : processOptions(),$('#graphs_tab').click();
+      if(($(e.target).text() == 'Return') ){
+        $('#define_tab').click();
+      }else {
+        processOptions();
+        $('#graphs_tab').click();
+      }
       return false;
     }
     if(app.selectedTab == 'graphs'){
-      ($(e.target).text() == 'Return') ? $('#options_tab').click() : {};
+      if(($(e.target).text() == 'Return') ){
+        $('#options_tab').click();
+      }else {
+
+      }
       return false;
     }
-  })
+  }.bind(this))
   //filereader
   $("input[name='relationship-file']").change(function(e){
     app.reader = new FileReader();
@@ -72,6 +92,10 @@ $(document).ready(function(){
     if(selectedGraph == 'full'){
       console.log('full')
       //remove css from all nodes and edges
+      if(app.targetNode != ""){
+        var targetNode = app.cy.elements('#'+app.targetNode);
+        targetNode.addClass('target');
+      }
     }
     if(selectedGraph == 'target'){
       console.log('target')
@@ -84,6 +108,10 @@ $(document).ready(function(){
     }
     if(selectedGraph == 'relationship'){
       console.log('relationship')
+      if(app.targetNode != ""){
+        var targetNode = app.cy.elements('#'+app.targetNode);
+        targetNode.addClass('target');
+      }
       app.focusGroup.split(',').forEach(function(id){
         app.cy.elements('#'+id).addClass('focus');
       },this);
@@ -94,6 +122,7 @@ $(document).ready(function(){
         }
       },this);
     }
+    app.cy.fit();
   })
 
 }); //end $.ready
@@ -101,10 +130,9 @@ $(document).ready(function(){
 function processOptions(){
   // console.log($('#options input:checked').prop('name'))
   app.graphType = $('#options input:checked').prop('name').split('-')[2];
-  app.focusGroup = $("#options input[name='relationship-focus-group']").val();
   app.graphData = {};
-  app.focusGroup = $("#options input[name='relationship-focus-group']").val();
-  app.targetNode = $("#options input[name='target-node']").val();
+  app.focusGroup = $("#options input[name='relationship-focus-group']").val().toLowerCase();
+  app.targetNode = $("#options input[name='target-node']").val().toLowerCase();
   if(app.targetNode != ""){
     app.graphData.targetNode = [{data:{id:app.targetNode}}];
     app.graphData.targetEdges = [];
@@ -121,7 +149,7 @@ function processOptions(){
 
   //insert data into next segment
   $('#graphs span.numNodes').text(app.numNodes)
-  $('#graphs span.nodeList').text(app.nodeList)
+  $('#graphs span.nodeList').text(app.nodeList.toString().replace(/,/g,',  '))
   $('#graphs span.focusGroup').text(app.focusGroup)
   $('#graphs span.targetNode').text(app.targetNode)
   $('#graphs span.graphType').text(app.graphType)
@@ -155,7 +183,9 @@ function createGraphs(){
       'background-color': 'black',
       'width': 'mapData(baz, 0, 10, 10, 40)',
       'height': 'mapData(baz, 0, 10, 10, 40)',
-      'content': 'data(id)'
+      'content': 'data(id)',
+      'color':'black',
+      'font-size': Math.floor(app.numNodes/2)+'em'
     })
     .selector('edge')
     .css({
@@ -182,7 +212,9 @@ function createGraphs(){
       'color': '#B3767E',
       'target-arrow-color': '#B3767E',
       'source-arrow-color': '#B3767E',
-      'opacity': 1
+      'opacity': 1,
+      'font-weight': 'bold',
+      'font-size': (Math.floor(app.numNodes/2)+1)+'em'
     })
     .selector('node.focus')
     .css({
@@ -217,26 +249,39 @@ function createGraphs(){
       'opacity': 0.25,
       'text-opacity': 0
     }),
+    // layout: {
+    //   name: 'cose',
+    //   idealEdgeLength: 100,
+    //   nodeOverlap: 20,
+    //   boundingBox: {
+    //     x1: 0, y1: 0, x2: 560, y2: 376, w: 560, h: 376
+    //   }
+    // },
     layout: {
       name: 'circle',
       padding: 10,
+      spacingFactor: 2,
       avoidOverlap: true,
       fit: true,
       radius:app.numNodes * 20,
       avoidOverlapPadding: 10,
       boundingBox: {
-        x1: 0, y1: 0, x2: 560, y2: 376, w: 560, h: 376
+        x1: 0, y1: 0, x2: 600, y2: 440, w: 600, h:440
       }
     },
     directed: true,
     styleEnabled: true
   });
   $("#graphs button[name='"+app.graphData.graphType+"']").click();
+  setTimeout(function(){
+    app.cy.fit();
+  }.bind(this),1000);
+  app.zoomLevel = app.cy.zoom();
 }
 
 function processDefinition(){
   var str = app.textFromFile ? app.textFromFile : $("#define input[name='relationship-text']").val();
-  str = str.replace(/\r/g, "").replace(/\n/g, "");
+  str = str.replace(/\r/g, "").replace(/\n/g, "").toLowerCase();
   console.log(str.replace(/\r/g, "").replace(/\n/g, ""))
   var nodes = [];
   var edges = [];
@@ -246,9 +291,10 @@ function processDefinition(){
   // console.log('relationships: ',relationships.replace(/\r/g, "").replace(/\n/g, ""))
   // //sanitized and structure relationship string for edge and node parsing
   str.replace(/\r/g, "").replace(/\n/g, "").split(';').forEach(function(el){
-    var sanitized = el.split(' ').filter(function(el){
+    var sanitized = el.trim().split(' ').filter(function(el){
       return el != '' && nodeList.indexOf(el) == -1;
     },this);
+    console.log(sanitized)
     var structured = {
       data:{
         id: sanitized[0]+sanitized[1],
@@ -256,6 +302,7 @@ function processDefinition(){
         target: sanitized[1]
       }
     };
+    console.log(structured)
     nodes = nodes.concat(sanitized);
     edges= edges.concat(structured);
   },this);
@@ -269,25 +316,28 @@ function processDefinition(){
   app.nodes =  nodeList.map(function(el){
     return {data:{id:el}};
   },this);
-
-  edges = str.toString().split(';').map(function(el){
-    console.log(el)
-    var sanitized = el.replace(';','').replace('\r','').split(' ');
-    var structured = {
-      data:{
-        id: sanitized[0]+sanitized[1],
-        source: sanitized[0],
-        target: sanitized[1]
-      }
-    };
-    return structured;
-  },this).filter(function(edge){
-    return edge.data.id != 'undefined';
+  edges = edges.filter(function(edge){
+    return edge.data.id != 'undefined' && (edge.data.source) &&(edge.data.target);
   });
+  console.log(edges)
+  // edges = str.toString().split(';').map(function(el){
+  //   console.log(el)
+  //   var sanitized = el.replace(';','').replace('\r','').split(' ');
+  //   var structured = {
+  //     data:{
+  //       id: sanitized[0]+sanitized[1],
+  //       source: sanitized[0],
+  //       target: sanitized[1]
+  //     }
+  //   };
+  //   return structured;
+  // },this).filter(function(edge){
+  //   return edge.data.id != 'undefined';
+  // });
   app.edges = edges;
   console.log('app data:',app)
   app.numNodes = app.nodeList.length;
   //insert data into next segment
   $('#options span.numNodes').text(app.numNodes);
-  $('#options span.nodeList').text(app.nodeList.toString());
+  $('#options span.nodeList').text(app.nodeList.toString().replace(/,/g,',  '));
 }
